@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manasvi | Brand Architect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette: Earthy, Professional, Editorial */
+            --bg-color: #FDFCF8; /* Cream */
+            --bg-secondary: #F4F5F0; /* Light Sage Tint */
+            --text-main: #1A1A1A; /* Soft Black */
+            --text-muted: #555555;
+            --accent-sage: #8DA399; /* Muted Sage */
+            --accent-dark: #2C3632; /* Deep Green/Black */
+            --border-color: #E0E0E0;
+            
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --container-width: 1100px;
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            line-height: 1.2;
+        }
+        
+        h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem; }
+        h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        
+        .highlight { font-style: italic; color: var(--accent-sage); }
+        .tagline { 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-size: 0.8rem; 
+            color: var(--text-muted); 
+            display: block; 
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* Layout Utility */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-padding { padding: 6rem 0; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- Header --- */
+        header {
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            background: rgba(253, 252, 248, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid transparent;
+            transition: var(--transition);
+        }
+        
+        header.scrolled { border-bottom: 1px solid var(--border-color); }
+
+        .nav-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; }
+        
+        nav ul { display: flex; gap: 2rem; list-style: none; }
+        nav a { font-size: 0.9rem; position: relative; }
+        nav a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+            background: var(--text-main); transition: var(--transition);
+        }
+        nav a:hover::after { width: 100%; }
+
+        /* --- Hero --- */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            padding-top: 2rem;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .hero-img-container {
+            position: relative;
+            height: 500px;
+            border-radius: 250px 250px 0 0;
+            overflow: hidden;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(10%);
+            transition: var(--transition);
+        }
+        
+        .hero-img:hover { filter: grayscale(0%); transform: scale(1.02); }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--text-main);
+            border-radius: 50px;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn:hover { background: var(--text-main); color: var(--bg-color); }
+
+        /* --- Marquee --- */
+        .marquee {
+            background: var(--accent-dark);
+            color: #fff;
+            padding: 1.5rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 25s linear infinite;
+        }
+        .marquee-content span {
+            margin: 0 2rem;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- Philosophy Cards --- */
+        .philosophy { background-color: var(--bg-secondary); }
+        
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--bg-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .card:hover { border-color: var(--accent-sage); transform: translateY(-5px); }
+
+        .card ul { list-style: none; margin-top: 1rem; }
+        .card li { margin-bottom: 0.8rem; position: relative; padding-left: 1.5rem; }
+        .card li::before { content: '•'; position: absolute; left: 0; color: var(--accent-sage); font-size: 1.2rem; line-height: 1; }
+        
+        /* --- Case Studies (Work) --- */
+        .case-study-item {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            transition: var(--transition);
+        }
+
+        .case-study-item:hover { background: rgba(255,255,255,0.5); }
+
+        .client-name {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--accent-dark);
+        }
+
+        .case-details h4 { font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; margin-top: 1.5rem; color: var(--text-muted); }
+        .case-details ul { margin-left: 1rem; margin-top: 0.5rem; }
+        
+        .stat-highlight {
+            display: inline-block;
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Services --- */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .service-box {
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+        .service-box h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .service-box p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* --- Stats Bento --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 1.5rem;
+        }
+        
+        .bento-box {
+            background: #FAFAFA;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .bento-box.dark { background: var(--accent-dark); color: #fff; grid-column: span 2; }
+        .bento-box.dark .stat-desc { color: rgba(255,255,255,0.7); }
+        
+        .stat-num { font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1; }
+        .stat-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
+
+        /* --- Tools & Personal --- */
+        .pill-container { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.5rem; }
+        .pill {
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            background: #fff;
+        }
+        
+        .personal-section {
+            background: var(--bg-secondary);
+            text-align: center;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--accent-dark);
+            color: var(--bg-color);
+            padding: 5rem 0 2rem;
+            text-align: center;
+        }
+        
+        footer h2 { margin-bottom: 2rem; }
+        
+        .contact-links a {
+            display: block;
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            opacity: 0.8;
+        }
+        .contact-links a:hover { opacity: 1; text-decoration: underline; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .grid-2, .hero-grid, .case-study-item { grid-template-columns: 1fr; gap: 2rem; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-box.dark { grid-column: span 1; }
+            .hero-img-container { height: 350px; }
+            h1 { font-size: 2.5rem; }
+            nav { display: none; } /* Simplified for this demo */
+        }
+    </style>
+</head>
+<body>
+
+    <header id="navbar">
+        <div class="container nav-flex">
+            <div class="logo">MANASVI.</div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#work">Case Studies</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container section-padding">
+        <section class="hero-grid reveal">
+            <div>
+                <span class="tagline">Brand Architect & Co-Founder @ Optyfly</span>
+                <h1>I build brands that people <span class="highlight">don’t scroll past.</span></h1>
+                <p style="margin-top: 1.5rem; font-size: 1.1rem; color: var(--text-muted); max-width: 500px;">
+                    Translating brand intent into internet behavior. I work at the intersection of brand, content, culture, and numbers.
+                </p>
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <a href="#work" class="btn">See The Work</a>
+                </div>
+            </div>
+            <div class="hero-img-container">
+                <img src="profile.jpg" alt="Manasvi Profile" class="hero-img">
+            </div>
+        </section>
+    </div>
+
+    <div class="marquee">
+        <div class="marquee-content">
+            <span>Good design is invisible</span>
+            <span>Culture beats calendars</span>
+            <span>Tone more than templates</span>
+            <span>Context more than trends</span>
+            <span>Taste more than volume</span>
+            <span>Good design is invisible</span>
+        </div>
+    </div>
+
+    <section id="about" class="section-padding philosophy">
+        <div class="container reveal">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <span class="tagline">How My Brain Works</span>
+                <h2>I clean things up. I give brands a spine.</h2>
+                <p>I don't believe content is about volume. I believe it's about <strong>memory</strong>.</p>
+            </div>
+
+            <div class="philosophy-grid">
+                <div class="card">
+                    <h3>I Don't Believe In</h3>
+                    <ul>
+                        <li>Posting daily just to stay "consistent"</li>
+                        <li>Trends without context</li>
+                        <li>Copy-pasting formats across platforms</li>
+                        <li>Content that talks <em>at</em> people</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>I Do Believe In</h3>
+                    <ul>
+                        <li>Platform-native storytelling</li>
+                        <li>Clear brand memory</li>
+                        <li>Creative restraint</li>
+                        <li>Letting the audience feel smart</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>What I'm Known For</h3>
+                    <ul>
+                        <li>Building "Brand Behaviour"</li>
+                        <li>How a brand sounds on a bad internet day</li>
+                        <li>Making things feel premium without trying</li>
+                        <li>Tone > Templates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="section-padding">
+        <div class="container">
+            <span class="tagline">Selected Work</span>
+            <h2 class="reveal">Case Studies</h2>
+
+            <article class="case-study-item reveal">
+                <div>
+                    <h3 class="client-name">JK Lakshmipat University</h3>
+                    <p class="highlight">Making a University Feel Human</p>
+                </div>
+                <div class="case-details">
+                    <p><strong>Challenge:</strong> Strong academics, but weak emotional connection. The digital presence was fragmented and didn't resonate with Gen Z.</p>
+                    
+                    <h4>What I Did</h4>
+                    <p>Led full-scale digital rebranding. Shifted tone from institutional to human. Built a storytelling content system (Reels, student spotlights).</p>
+                    
+                    <h4>The Results</h4>
+                    <div style="margin-top: 1rem;">
+                        <span class="stat-highlight">3x Social Growth</span>
+                        <span class="stat-highlight">100K+ Reel Reach</span>
+                        <span class="stat-highlight">60% Search Uplift</span>
+                        <span class="stat-highlight">40% Event Participation</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="case-study-item reveal">
+                <div>
+                    <h3 class="client-name">Kayease</h3>
+                    <p class="highlight">IT & Digital Marketing Agency</p>
+                </div>
+                <div class="case-details">
+                    <p><strong>Challenge:</strong> Inconsistent brand presence across verticals. The audience couldn't recognize their unique voice.</p>
+                    
+                    <h4>What I Did</h4>
+                    <p>Built brand-consistent content strategy. Scripted campaign creatives balancing branding with performance. Integrated data-driven insights.</p>
+                    
+                    <h4>The Results</h4>
+                    <div style="margin-top: 1rem;">
+                        <span class="stat-highlight">3x Engagement</span>
+                        <span class="stat-highlight">45% Lead Gen Increase</span>
+                        <span class="stat-highlight">35% CTR Increase</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="case-study-item reveal">
+                <div>
+                    <h3 class="client-name">SAS Entertainment</h3>
+                    <p class="highlight">Turning Pitches Into Revenue</p>
+                </div>
+                <div class="case-details">
+                    <p><strong>Challenge:</strong> High-value sponsorship pitches weren't landing. Decks didn't frame value well enough.</p>
+                    
+                    <h4>What I Did</h4>
+                    <p>Redesigned sponsor decks to tell stories. Reworked outreach strategy. Managed artist contracts.</p>
+                    
+                    <h4>The Results</h4>
+                    <div style="margin-top: 1rem;">
+                        <span class="stat-highlight">₹25L+ Sponsorships Closed</span>
+                        <span class="stat-highlight">2.5x Response Rate</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="case-study-item reveal">
+                <div>
+                    <h3 class="client-name">Kishmi</h3>
+                    <p class="highlight">Beauty Brand From Scratch</p>
+                </div>
+                <div class="case-details">
+                    <p><strong>Challenge:</strong> Building a premium beauty brand from zero (No legacy, no audience).</p>
+                    
+                    <h4>What I Did</h4>
+                    <p>Full brand foundation (Naming, Packaging, Positioning). Digital-first content strategy.</p>
+                    
+                    <h4>The Results</h4>
+                    <div style="margin-top: 1rem;">
+                        <span class="stat-highlight">Complete Packaging System</span>
+                        <span class="stat-highlight">Maximized Launch ROI</span>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="section-padding" style="background-color: #FAFAFA;">
+        <div class="container reveal">
+            <span class="tagline">Impact</span>
+            <h2 style="margin-bottom: 3rem;">Vibes are good, <span class="highlight">numbers matter.</span></h2>
+            
+            <div class="bento-grid">
+                <div class="bento-box dark">
+                    <div class="stat-num">₹10L+</div>
+                    <div class="stat-desc">Sponsorships closed through better storytelling and decks.</div>
+                </div>
+                <div class="bento-box">
+                    <div class="stat-num">3x</div>
+                    <div class="stat-desc">Growth in social engagement for education brands.</div>
+                </div>
+                <div class="bento-box">
+                    <div class="stat-num">60%</div>
+                    <div class="stat-desc">Increase in branded search volume post-rebrand.</div>
+                </div>
+                <div class="bento-box">
+                    <div class="stat-num">100K+</div>
+                    <div class="stat-desc">Organic Reel reach in under a week (from <1.5K).</div>
+                </div>
+                <div class="bento-box">
+                    <div class="stat-num">95%</div>
+                    <div class="stat-desc">Student retention rate post orientation program.</div>
+                </div>
+                <div class="bento-box dark">
+                    <div class="stat-num">₹8L+</div>
+                    <div class="stat-desc">Per conversion for high-ticket admissions via better strategy.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section-padding">
+        <div class="container">
+            <div class="grid-2 reveal">
+                <div>
+                    <span class="tagline">Services</span>
+                    <h2>What you can actually <span class="highlight">hire me for.</span></h2>
+                    
+                    <div class="service-grid">
+                        <div class="service-box">
+                            <h3>Brand Strategy</h3>
+                            <p>Voice, Tone, Positioning, Messaging Frameworks.</p>
+                        </div>
+                        <div class="service-box">
+                            <h3>Content Strategy</h3>
+                            <p>Story-driven systems, Platform-native narratives, Short-form.</p>
+                        </div>
+                        <div class="service-box">
+                            <h3>Campaigns</h3>
+                            <p>Admissions, Lead-gen, Launches, Influencer collabs.</p>
+                        </div>
+                        <div class="service-box">
+                            <h3>Performance Creative</h3>
+                            <p>Ads that don't feel like ads. Funnel alignment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="tagline">The Lab</span>
+                    <h2>Tools & Obsessions</h2>
+                    
+                    <h4 style="margin-top: 2rem;">Tools I Actually Use</h4>
+                    <div class="pill-container">
+                        <span class="pill">Notion</span>
+                        <span class="pill">Photoshop</span>
+                        <span class="pill">Illustrator</span>
+                        <span class="pill">Canva</span>
+                        <span class="pill">Premiere Pro</span>
+                        <span class="pill">Semrush</span>
+                        <span class="pill">Ahrefs</span>
+                        <span class="pill">Meta Business Suite</span>
+                    </div>
+
+                    <h4 style="margin-top: 2rem;">Currently Exploring</h4>
+                    <div class="pill-container">
+                        <span class="pill">Neurobranding</span>
+                        <span class="pill">AI Workflows</span>
+                        <span class="pill">CRO for Content</span>
+                    </div>
+
+                    <h4 style="margin-top: 2rem;">Low-key Obsessed With</h4>
+                    <div class="pill-container">
+                        <span class="pill">Internet Culture</span>
+                        <span class="pill">Comment Sections</span>
+                        <span class="pill">Founder Brands</span>
+                        <span class="pill">Starting Clean</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding personal-section">
+        <div class="container reveal">
+            <h2>Me, outside the work</h2>
+            <p style="max-width: 600px; margin: 1rem auto; color: var(--text-muted);">
+                I come from a sports and dance background. I have practised <strong>Kathak and Bharatnatyam</strong> for about 9 years and played <strong>basketball</strong> for 4 years. I am also into yoga and meditation.
+            </p>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container reveal">
+            <span class="tagline">Let's Talk</span>
+            <h2>If you want a brand that sounds like a <br>real person, we should talk.</h2>
+            
+            <div class="contact-links">
+                <a href="mailto:manasvi@optyfly.com">manasvi@optyfly.com</a>
+                <a href="tel:9256544613">9256544613</a>
+                <a href="https://linkedin.com/in/manasvichobdar" target="_blank">LinkedIn</a>
+            </div>
+
+            <p style="margin-top: 3rem; opacity: 0.5; font-size: 0.8rem;">
+                © 2024 Manasvi Chobdar. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+
+        // Navbar blur effect on scroll
+        const header = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
